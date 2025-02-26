@@ -2,7 +2,6 @@ from fastapi import FastAPI
 import pandas as pd
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from fastapi.middleware.cors import CORSMiddleware
-
 app = FastAPI()
 
 # Enable CORS for frontend communication
@@ -47,3 +46,25 @@ def get_yearly_forecast(year: int):
 
     except IndexError:
         return {"error": "Forecast date out of range"}
+
+@app.get("/monthly_counts/{month}")
+def get_monthly_counts(month: int):
+    """Return counts of categorical features for the specified month (random year between 2010-2018)."""
+    year = 2005+month
+    filtered_df = df[(df["year"] == year) & (df["month"] == month)]
+    
+    if filtered_df.empty:
+        return {"error": f"No data available for {year}-{month:02d}"}
+    
+    counts = {
+        "Operating Airline": filtered_df["Operating Airline"].value_counts().to_dict(),
+        "GEO Summary": filtered_df["GEO Summary"].value_counts().to_dict(),
+        "GEO Region": filtered_df["GEO Region"].value_counts().to_dict(),
+        "Landing Aircraft Type": filtered_df["Landing Aircraft Type"].value_counts().to_dict()
+    }
+    
+    return {
+        "year": year,
+        "month": month,
+        "counts": counts
+    }
