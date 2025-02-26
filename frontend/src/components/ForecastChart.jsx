@@ -11,9 +11,9 @@ const ForecastChart = ({ forecastData, onBarClick }) => {
   }));
 
   const handleBarClick = (data, index) => {
-    console.log("Clicked on:", data);
+    console.log("Clicked on:", data,index);
     if (onBarClick) {
-      onBarClick(data); // Call the function passed from the parent
+      onBarClick(index+1); // Call the function passed from the parent
     }
   };
 
