@@ -34,12 +34,14 @@ const ForecastApp = ({setForecastData}) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
+    <div className="w-[98%] mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold text-center mb-4">Monthly Forecast</h1>
 
       <div className="flex items-center justify-center gap-4 mb-4">
         <input
           type="number"
+          required
+          min={2024}
           value={year}
           onChange={(e) => setYear(e.target.value)}
           placeholder="Enter Year (e.g., 2026)"
